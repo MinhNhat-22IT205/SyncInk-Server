@@ -11,3 +11,6 @@ export type ModelWhereUniqueInput<T> = Prisma.AtLeast<ModelWhereInput<T>, 'id'>;
 export type ModelOrderByWithRelationInput<T> = {
     [K in keyof T]?: Prisma.SortOrder;
 };
+export type ModelSelect<T> = {
+    [K in keyof T]?: boolean;
+};

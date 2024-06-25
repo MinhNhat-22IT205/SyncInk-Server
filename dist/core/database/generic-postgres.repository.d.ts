@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
-import { PostgresRepository } from './generic.repository.interface';
-import { ModelOrderByWithRelationInput, ModelWhereInput, ModelWhereUniqueInput, ModelWithoutId } from 'shared/types/postgresTypes';
+import { PostgresRepository } from './base.repository.interface';
+import { ModelOrderByWithRelationInput, ModelSelect, ModelWhereInput, ModelWhereUniqueInput, ModelWithoutId } from 'src/shared/types/postgresTypes';
 export declare class GenericRepository<T> implements PostgresRepository {
     private readonly prismaClient;
     private readonly modelName;
@@ -10,11 +10,13 @@ export declare class GenericRepository<T> implements PostgresRepository {
         take?: number;
         cursor?: ModelWhereUniqueInput<T>;
         where?: ModelWhereInput<T>;
+        select?: ModelSelect<T>;
         orderBy?: ModelOrderByWithRelationInput<T>;
     }): Promise<T[]>;
     findById(id: string): Promise<T>;
     findOne(options: {
-        where: ModelWhereUniqueInput<T>;
+        where: ModelWhereInput<T>;
+        select?: ModelSelect<T>;
     }): Promise<T>;
     update(data: Partial<ModelWithoutId<T>>, options: {
         where: ModelWhereInput<T>;

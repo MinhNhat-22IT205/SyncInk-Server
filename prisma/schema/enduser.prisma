@@ -1,0 +1,18 @@
+model EndUser {
+    id              String   @id @default(uuid())
+    username        String
+    email           String   @unique
+    password        String
+    avatar          String   @default("")
+    gender          Gender   @default(UNKNOWN)
+    description     String   @default("")
+    activationToken String?
+    createdAt       DateTime @default(now())
+    updatedAt       DateTime @updatedAt
+}
+
+enum Gender {
+    MALE
+    FEMALE
+    UNKNOWN
+}

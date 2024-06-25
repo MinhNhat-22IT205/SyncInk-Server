@@ -1,3 +1,3 @@
 export declare const ENTITY_NAME: {
-    readonly USER: "user";
+    readonly ENDUSER: "endUser";
 };

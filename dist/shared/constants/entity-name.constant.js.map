@@ -1,1 +1,1 @@
-{"version":3,"file":"entity-name.constant.js","sourceRoot":"","sources":["../../../shared/constants/entity-name.constant.ts"],"names":[],"mappings":";;;AAAa,QAAA,WAAW,GAAG;IACzB,IAAI,EAAE,MAAM;CACJ,CAAC"}
+{"version":3,"file":"entity-name.constant.js","sourceRoot":"","sources":["../../../src/shared/constants/entity-name.constant.ts"],"names":[],"mappings":";;;AAAa,QAAA,WAAW,GAAG;IACzB,OAAO,EAAE,SAAS;CACV,CAAC"}

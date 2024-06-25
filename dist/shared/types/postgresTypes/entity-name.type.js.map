@@ -1,1 +1,1 @@
-{"version":3,"file":"entity-name.type.js","sourceRoot":"","sources":["../../../../shared/types/postgresTypes/entity-name.type.ts"],"names":[],"mappings":""}
+{"version":3,"file":"entity-name.type.js","sourceRoot":"","sources":["../../../../src/shared/types/postgresTypes/entity-name.type.ts"],"names":[],"mappings":""}

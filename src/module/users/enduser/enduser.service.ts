@@ -1,0 +1,29 @@
+import { Injectable } from '@nestjs/common';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { EndUserRepository } from './repository/enduser.repository';
+import { EndUser } from '@prisma/client';
+
+@Injectable()
+export class EndUserService {
+  constructor(private readonly EndUserRepository: EndUserRepository) {}
+  async create(createUserDto: CreateUserDto): Promise<EndUser> {
+    return this.EndUserRepository.create(createUserDto);
+  }
+
+  async findAll(): Promise<EndUser[]> {
+    return this.EndUserRepository.findMany({});
+  }
+
+  findOne(id: number) {
+    return `This action returns a #${id} user`;
+  }
+
+  update(id: number, updateUserDto: UpdateUserDto) {
+    return `This action updates a #${id} user`;
+  }
+
+  remove(id: number) {
+    return `This action removes a #${id} user`;
+  }
+}
