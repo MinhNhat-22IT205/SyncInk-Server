@@ -6,13 +6,13 @@ import { EndUser } from '@prisma/client';
 
 @Injectable()
 export class EndUserService {
-  constructor(private readonly EndUserRepository: EndUserRepository) {}
+  constructor(private readonly endUserRepository: EndUserRepository) {}
   async create(createUserDto: CreateUserDto): Promise<EndUser> {
-    return this.EndUserRepository.create(createUserDto);
+    return this.endUserRepository.create(createUserDto);
   }
 
   async findAll(): Promise<EndUser[]> {
-    return this.EndUserRepository.findMany({});
+    return this.endUserRepository.findMany({});
   }
 
   findOne(id: number) {

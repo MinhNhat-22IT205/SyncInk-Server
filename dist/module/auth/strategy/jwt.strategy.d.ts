@@ -1,11 +1,11 @@
 import { Strategy } from 'passport-jwt';
-import { EndUserService } from 'src/module/users/enduser/enduser.service';
+import { AuthService } from '../auth.service';
 declare const JwtStrategy_base: new (...args: any[]) => InstanceType<typeof Strategy>;
 export declare class JwtStrategy extends JwtStrategy_base {
-    private EndUserService;
-    constructor(EndUserService: EndUserService);
+    private authService;
+    constructor(authService: AuthService);
     validate(payload: {
-        userId: number;
-    }): Promise<string>;
+        userId: string;
+    }): Promise<import("../../users/enduser/entities/enduser.entity").EndUserMinimal>;
 }
 export {};

@@ -9,7 +9,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EndUserEntity = void 0;
+exports.EndUserMinimal = exports.EndUserEntity = void 0;
+const mapped_types_1 = require("@nestjs/mapped-types");
 const swagger_1 = require("@nestjs/swagger");
 const client_1 = require("@prisma/client");
 const class_transformer_1 = require("class-transformer");
@@ -66,4 +67,13 @@ __decorate([
     (0, class_transformer_1.Exclude)(),
     __metadata("design:type", String)
 ], EndUserEntity.prototype, "activationToken", void 0);
+class EndUserMinimal extends (0, mapped_types_1.PickType)(EndUserEntity, [
+    'id',
+    'username',
+    'email',
+    'avatar',
+    'description',
+]) {
+}
+exports.EndUserMinimal = EndUserMinimal;
 //# sourceMappingURL=enduser.entity.js.map

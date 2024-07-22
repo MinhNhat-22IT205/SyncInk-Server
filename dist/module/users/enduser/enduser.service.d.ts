@@ -3,8 +3,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { EndUserRepository } from './repository/enduser.repository';
 import { EndUser } from '@prisma/client';
 export declare class EndUserService {
-    private readonly EndUserRepository;
-    constructor(EndUserRepository: EndUserRepository);
+    private readonly endUserRepository;
+    constructor(endUserRepository: EndUserRepository);
     create(createUserDto: CreateUserDto): Promise<EndUser>;
     findAll(): Promise<EndUser[]>;
     findOne(id: number): string;

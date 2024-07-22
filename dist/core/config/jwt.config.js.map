@@ -1,1 +1,1 @@
-{"version":3,"file":"jwt.config.js","sourceRoot":"","sources":["../../../src/core/config/jwt.config.ts"],"names":[],"mappings":";;;AAEa,QAAA,kBAAkB,GAAqB;IAClD,MAAM,EAAE,OAAO,CAAC,GAAG,CAAC,UAAU;IAC9B,WAAW,EAAE,EAAE,SAAS,EAAE,IAAI,EAAE;CACjC,CAAC"}
+{"version":3,"file":"jwt.config.js","sourceRoot":"","sources":["../../../src/core/config/jwt.config.ts"],"names":[],"mappings":";;;AAEa,QAAA,kBAAkB,GAAqB;IAClD,MAAM,EAAE,OAAO,CAAC,GAAG,CAAC,UAAU;IAC9B,WAAW,EAAE,EAAE,SAAS,EAAE,KAAK,EAAE;CAClC,CAAC"}

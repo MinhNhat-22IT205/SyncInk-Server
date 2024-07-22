@@ -11,3 +11,7 @@ export declare class EndUserEntity implements EndUser {
     description: string;
     activationToken: string;
 }
+declare const EndUserMinimal_base: import("@nestjs/mapped-types").MappedType<Pick<EndUserEntity, "description" | "username" | "id" | "email" | "avatar">>;
+export declare class EndUserMinimal extends EndUserMinimal_base {
+}
+export {};

@@ -10,10 +10,4 @@ export class AuthRepository extends GenericRepository<EndUserEntity> {
   constructor(private readonly prismaService: PrismaService) {
     super(prismaService, ENTITY_NAME.ENDUSER);
   }
-  async findEndUserMinimal(email: string): Promise<EndUser> {
-    return this.findOne({
-      where: { email },
-      select: { id: true, email: true, password: true, description: true, avatar: true },
-    });
-  }
 }

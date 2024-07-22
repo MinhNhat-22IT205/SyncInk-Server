@@ -7,7 +7,8 @@ const prisma_client_exception_filter_1 = require("./core/global-exception-filter
 const common_1 = require("@nestjs/common");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
-    app.setGlobalPrefix('v1/api');
+    app.enableCors();
+    app.setGlobalPrefix('v1');
     app.useGlobalPipes(new common_1.ValidationPipe());
     const { httpAdapter } = app.get(core_1.HttpAdapterHost);
     app.useGlobalFilters(new prisma_client_exception_filter_1.PrismaClientExceptionFilter(httpAdapter));

@@ -17,8 +17,8 @@ class GenericRepository {
     async findOne(options) {
         return this.prismaClient[this.modelName].findUnique(options);
     }
-    async update(data, options) {
-        return this.prismaClient[this.modelName].update({ data, ...options });
+    async update(args) {
+        return this.prismaClient[this.modelName].update(args);
     }
     async delete(id) {
         return this.prismaClient[this.modelName].delete({ where: { id } });

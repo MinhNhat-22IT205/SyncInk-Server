@@ -1,0 +1,20 @@
+model Document {
+    id           String     @id @default(uuid())
+    title        String
+    description  String     @default("")
+    content      String     @default("")
+    image        String     @default("")
+    endUser      EndUser    @relation(fields: [endUserId], references: [id])
+    endUserId    String
+    publicAccess AccessType @default(RESTRICTED)
+    editors      Editor[]
+    viewers      Viewer[]
+    createdAt    DateTime   @default(now())
+    updatedAt    DateTime   @updatedAt
+}
+
+enum AccessType {
+    EDITABLE
+    VIEWABLE
+    RESTRICTED
+}

@@ -14,3 +14,10 @@ export type ModelOrderByWithRelationInput<T> = {
 export type ModelSelect<T> = {
     [K in keyof T]?: boolean;
 };
+export type SelectedFields<T, U extends ModelSelect<T>> = {
+    [K in keyof U & keyof T]: T[K];
+};
+export type ModelInclude<T> = {
+    [K in keyof T]?: boolean | ModelInclude<InferIncludeModelType<T[K]>>;
+};
+export type InferIncludeModelType<T> = T extends (infer U)[] ? U : T extends object ? T : never;

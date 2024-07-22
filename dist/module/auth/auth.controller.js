@@ -35,7 +35,7 @@ let AuthController = class AuthController {
 };
 exports.AuthController = AuthController;
 __decorate([
-    (0, serialize_interceptor_1.SerializeWithEndUserInterceptor)(auth_entity_1.AuthEntity),
+    (0, serialize_interceptor_1.UseSerializeInterceptor)(auth_entity_1.AuthEntity),
     (0, common_1.Post)('login'),
     (0, swagger_1.ApiOkResponse)({ type: auth_entity_1.AuthEntity }),
     __param(0, (0, common_1.Body)()),
@@ -44,7 +44,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "login", null);
 __decorate([
-    (0, serialize_interceptor_1.SerializeWithEndUserInterceptor)(enduser_entity_1.EndUserEntity),
+    (0, serialize_interceptor_1.UseSerializeInterceptor)(enduser_entity_1.EndUserEntity),
     (0, common_1.Post)('register'),
     (0, swagger_1.ApiCreatedResponse)({ type: enduser_entity_1.EndUserEntity }),
     __param(0, (0, common_1.Body)()),

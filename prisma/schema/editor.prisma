@@ -1,0 +1,7 @@
+model Editor {
+    id         String   @id @default(uuid())
+    endUser    EndUser  @relation(fields: [endUserId], references: [id])
+    endUserId  String   @unique
+    document   Document @relation(fields: [documentId], references: [id])
+    documentId String
+}

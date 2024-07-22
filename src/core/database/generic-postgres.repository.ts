@@ -1,11 +1,13 @@
 import { Prisma, PrismaClient } from '@prisma/client';
 import { PostgresRepository } from './base.repository.interface';
 import {
+  ModelInclude,
   ModelOrderByWithRelationInput,
   ModelSelect,
   ModelWhereInput,
   ModelWhereUniqueInput,
   ModelWithoutId,
+  SelectedFields,
 } from 'src/shared/types/postgresTypes';
 
 export class GenericRepository<T> implements PostgresRepository {
@@ -13,14 +15,16 @@ export class GenericRepository<T> implements PostgresRepository {
     private readonly prismaClient: PrismaClient,
     private readonly modelName: string,
   ) {}
-  public async findMany(options: {
+  public async findMany<U extends ModelSelect<T>>(options: {
     skip?: number;
     take?: number;
     cursor?: ModelWhereUniqueInput<T>;
     where?: ModelWhereInput<T>;
-    select?: ModelSelect<T>;
+    select?: U;
     orderBy?: ModelOrderByWithRelationInput<T>;
-  }): Promise<T[]> {
+    include?: ModelInclude<T>;
+  }): Promise<SelectedFields<T, U>[]> {
+    // const a = this.prismaClient.endUser.findMany({where:{editor}});
     return this.prismaClient[this.modelName].findMany(options);
   }
   public async findById(id: string): Promise<T> {
@@ -28,17 +32,18 @@ export class GenericRepository<T> implements PostgresRepository {
       where: { id },
     });
   }
-  public async findOne(options: {
+  public async findOne<U extends ModelSelect<T>>(options: {
     where: ModelWhereInput<T>;
-    select?: ModelSelect<T>;
-  }): Promise<T> {
+    select?: U;
+    include?: ModelInclude<T>;
+  }): Promise<SelectedFields<T, U>> {
     return this.prismaClient[this.modelName].findUnique(options);
   }
-  public async update(
-    data: Partial<ModelWithoutId<T>>,
-    options: { where: ModelWhereInput<T> },
-  ): Promise<T> {
-    return this.prismaClient[this.modelName].update({ data, ...options });
+  public async update(args: {
+    data: Partial<ModelWithoutId<T>>;
+    where: ModelWhereInput<T>;
+  }): Promise<T> {
+    return this.prismaClient[this.modelName].update(args);
   }
   public async delete(id: string): Promise<T> {
     return this.prismaClient[this.modelName].delete({ where: { id } });

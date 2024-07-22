@@ -5,12 +5,12 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { EndUserEntity } from './entities/enduser.entity';
 import { JwtAuthGuard } from 'src/module/auth/strategy/jwt-auth.guard';
-import { SerializeWithEndUserInterceptor } from 'src/core/interceptor/serialize.interceptor';
+import { UseSerializeInterceptor } from 'src/core/interceptor/serialize.interceptor';
 
 @Controller('users')
 @ApiTags('users')
 @ApiBearerAuth()
-@SerializeWithEndUserInterceptor(EndUserEntity)
+@UseSerializeInterceptor(EndUserEntity)
 @UseGuards(JwtAuthGuard)
 export class EndUserController {
   constructor(private readonly EndUserService: EndUserService) {}

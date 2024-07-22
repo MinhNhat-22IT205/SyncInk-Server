@@ -19,12 +19,6 @@ let AuthRepository = class AuthRepository extends generic_postgres_repository_1.
         super(prismaService, entity_name_constant_1.ENTITY_NAME.ENDUSER);
         this.prismaService = prismaService;
     }
-    async findEndUserMinimal(email) {
-        return this.findOne({
-            where: { email },
-            select: { id: true, email: true, password: true, description: true, avatar: true },
-        });
-    }
 };
 exports.AuthRepository = AuthRepository;
 exports.AuthRepository = AuthRepository = __decorate([

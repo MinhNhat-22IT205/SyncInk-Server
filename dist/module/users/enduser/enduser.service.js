@@ -13,14 +13,14 @@ exports.EndUserService = void 0;
 const common_1 = require("@nestjs/common");
 const enduser_repository_1 = require("./repository/enduser.repository");
 let EndUserService = class EndUserService {
-    constructor(EndUserRepository) {
-        this.EndUserRepository = EndUserRepository;
+    constructor(endUserRepository) {
+        this.endUserRepository = endUserRepository;
     }
     async create(createUserDto) {
-        return this.EndUserRepository.create(createUserDto);
+        return this.endUserRepository.create(createUserDto);
     }
     async findAll() {
-        return this.EndUserRepository.findMany({});
+        return this.endUserRepository.findMany({});
     }
     findOne(id) {
         return `This action returns a #${id} user`;

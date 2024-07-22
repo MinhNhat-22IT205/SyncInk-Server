@@ -7,21 +7,21 @@ import { AuthEntity } from './entity/auth.entity';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { EndUserEntity } from '../users/enduser/entities/enduser.entity';
-import { SerializeWithEndUserInterceptor } from 'src/core/interceptor/serialize.interceptor';
+import { UseSerializeInterceptor } from 'src/core/interceptor/serialize.interceptor';
 
 @Controller('auth')
 @ApiTags('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @SerializeWithEndUserInterceptor(AuthEntity)
+  @UseSerializeInterceptor(AuthEntity)
   @Post('login')
   @ApiOkResponse({ type: AuthEntity })
   async login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto);
   }
 
-  @SerializeWithEndUserInterceptor(EndUserEntity)
+  @UseSerializeInterceptor(EndUserEntity)
   @Post('register')
   @ApiCreatedResponse({ type: EndUserEntity })
   async signup(@Body() registerDto: RegisterDto) {

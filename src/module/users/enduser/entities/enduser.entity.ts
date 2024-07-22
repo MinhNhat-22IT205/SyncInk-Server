@@ -1,3 +1,4 @@
+import { PickType } from '@nestjs/mapped-types';
 import { ApiProperty } from '@nestjs/swagger';
 import { $Enums, EndUser } from '@prisma/client';
 import { Exclude, Expose } from 'class-transformer';
@@ -43,3 +44,11 @@ export class EndUserEntity implements EndUser {
   @Exclude()
   activationToken: string;
 }
+
+export class EndUserMinimal extends PickType(EndUserEntity, [
+  'id',
+  'username',
+  'email',
+  'avatar',
+  'description',
+] as const) {}

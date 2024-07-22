@@ -19,8 +19,19 @@ let AuthService = class AuthService {
         this.authRepository = authRepository;
         this.jwtService = jwtService;
     }
+    async getEndUserByEmail(email) {
+        return this.authRepository.findOne({
+            where: { email },
+        });
+    }
+    async getEndUserMinimalById(endUserId) {
+        return this.authRepository.findOne({
+            where: { id: endUserId },
+            select: { id: true, username: true, email: true, description: true, avatar: true },
+        });
+    }
     async login({ email, password }) {
-        const user = await this.authRepository.findEndUserMinimal(email);
+        const user = await this.getEndUserByEmail(email);
         if (!user) {
             throw new common_1.NotFoundException(`No user found for email: ${email}`);
         }
@@ -28,9 +39,11 @@ let AuthService = class AuthService {
         if (!isPasswordValid) {
             throw new common_1.UnauthorizedException('Invalid password');
         }
+        const accessToken = this.jwtService.sign({ userId: user.id });
+        console.log(accessToken);
         return {
             endUser: user,
-            accessToken: this.jwtService.sign({ userId: user.id }),
+            accessToken,
         };
     }
     async register(registerEndUserDto) {

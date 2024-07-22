@@ -83,7 +83,7 @@ exports.EndUserController = EndUserController = __decorate([
     (0, common_1.Controller)('users'),
     (0, swagger_1.ApiTags)('users'),
     (0, swagger_1.ApiBearerAuth)(),
-    (0, serialize_interceptor_1.SerializeWithEndUserInterceptor)(enduser_entity_1.EndUserEntity),
+    (0, serialize_interceptor_1.UseSerializeInterceptor)(enduser_entity_1.EndUserEntity),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __metadata("design:paramtypes", [enduser_service_1.EndUserService])
 ], EndUserController);
