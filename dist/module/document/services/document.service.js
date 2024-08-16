@@ -8,18 +8,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DocumentService = void 0;
 const common_1 = require("@nestjs/common");
 const document_repository_1 = require("../repository/document.repository");
-const document_access_type_constant_1 = require("../../../shared/constants/document-access-type.constant");
-const editor_service_1 = require("../../document-access/editor/editor.service");
-const viewer_service_1 = require("../../document-access/viewer/viewer.service");
+const document_access_service_1 = require("../../document-access/document-access.service");
 let DocumentService = class DocumentService {
-    constructor(documentRepository, editorService, viewerService) {
+    constructor(documentRepository, documentAccessService) {
         this.documentRepository = documentRepository;
-        this.editorService = editorService;
-        this.viewerService = viewerService;
+        this.documentAccessService = documentAccessService;
     }
     async createDocument(createDocumentDto, endUserId) {
         return this.documentRepository.create({ ...createDocumentDto, endUserId });
@@ -27,81 +27,50 @@ let DocumentService = class DocumentService {
     async getDocumentsByUserId(endUserId) {
         return this.documentRepository.findMany({ where: { endUserId: endUserId } });
     }
-    async getDocumentById(documentId, endUserId) {
+    async checkAccessAndGetDocumentById(documentId, endUserId) {
         const document = await this.documentRepository.findOne({ where: { id: documentId } });
         if (!document) {
             throw new common_1.NotFoundException('Document not found');
         }
-        const isOwner = document.endUserId === endUserId;
-        if (isOwner) {
-            return document;
-        }
-        if (document.publicAccess === document_access_type_constant_1.DOCUMENT_ACCESS_TYPE.RESTRICTED) {
-            const isViewer = await this.isDocumentViewer(endUserId, documentId);
-            if (!isViewer) {
-                throw new common_1.UnauthorizedException('You are not allowed for viewing this document');
-            }
+        const canView = await this.documentAccessService.canView(endUserId, document);
+        if (!canView) {
+            throw new common_1.UnauthorizedException('You are not allowed for viewing this document');
         }
         return document;
     }
-    async updateDocument(updateDocumentDto, documentId, endUserId) {
-        const requestedDocument = await this.documentRepository.findOne({ where: { id: documentId } });
-        const isCreator = requestedDocument.endUserId === endUserId;
-        if (!isCreator) {
-            if (requestedDocument.publicAccess !== document_access_type_constant_1.DOCUMENT_ACCESS_TYPE.EDITABLE &&
-                requestedDocument.publicAccess !== document_access_type_constant_1.DOCUMENT_ACCESS_TYPE.RESTRICTED) {
-                throw new common_1.UnauthorizedException('You are not allowed for editing this document');
-            }
-            const isEditor = await this.isDocumentEditor(endUserId, documentId);
-            if (!isEditor) {
-                throw new common_1.UnauthorizedException('You are not allowed for editing this document');
-            }
+    async getDocumentById(documentId) {
+        return this.documentRepository.findOne({ where: { id: documentId } });
+    }
+    async checkAccessAndUpdateDocument(updateDocumentDto, documentId, endUserId) {
+        const document = await this.documentRepository.findOne({ where: { id: documentId } });
+        const canEdit = await this.documentAccessService.canEdit(endUserId, document);
+        if (!canEdit) {
+            throw new common_1.UnauthorizedException('You are not allowed for editing this document');
         }
         return this.documentRepository.update({
             data: {
-                content: updateDocumentDto.content + requestedDocument.content,
                 ...updateDocumentDto,
             },
             where: { id: documentId },
         });
     }
-    async deleteDocument(documentId, endUserId) {
-        const isDocumentBelongsToUser = await this.isDocumentBelongsToUser(documentId, endUserId);
-        if (!isDocumentBelongsToUser) {
-            throw new common_1.UnauthorizedException('You are not allowed for editing this document');
+    async checkAccessAndDeleteDocument(documentId, endUserId) {
+        const document = await this.documentRepository.findOne({ where: { id: documentId } });
+        if (!document) {
+            throw new common_1.NotFoundException('Document not found');
+        }
+        const isOwner = document.endUserId === endUserId;
+        if (!isOwner) {
+            throw new common_1.UnauthorizedException('Only the owner is allowed for deleting this document');
         }
         return this.documentRepository.delete(documentId);
-    }
-    async setDocumentAccessType(updateDocumentAccessTypeDto, documentId, endUserId) {
-        const isDocumentBelongsToUser = await this.isDocumentBelongsToUser(documentId, endUserId);
-        if (!isDocumentBelongsToUser) {
-            throw new common_1.UnauthorizedException('You are not allowed for editing this document');
-        }
-        return this.documentRepository.update({
-            data: { publicAccess: updateDocumentAccessTypeDto.documentAccessType },
-            where: { id: documentId },
-        });
-    }
-    async isDocumentBelongsToUser(documentId, endUserId) {
-        const document = await this.documentRepository.findOne({ where: { id: documentId } });
-        return document.endUserId === endUserId;
-    }
-    async isDocumentEditor(endUserId, documentId) {
-        const editors = await this.editorService.getEditorsFromDocumentId({ documentId });
-        const isEditor = editors.some(editor => editor.endUserId === endUserId);
-        return isEditor;
-    }
-    async isDocumentViewer(endUserId, documentId) {
-        const viewers = await this.viewerService.getViewersFromDocumentId({ documentId });
-        const isViewer = viewers.some(viewer => viewer.endUserId === endUserId);
-        return isViewer;
     }
 };
 exports.DocumentService = DocumentService;
 exports.DocumentService = DocumentService = __decorate([
     (0, common_1.Injectable)(),
+    __param(1, (0, common_1.Inject)((0, common_1.forwardRef)(() => document_access_service_1.DocumentAccessService))),
     __metadata("design:paramtypes", [document_repository_1.DocumentRepository,
-        editor_service_1.EditorService,
-        viewer_service_1.ViewerService])
+        document_access_service_1.DocumentAccessService])
 ], DocumentService);
 //# sourceMappingURL=document.service.js.map

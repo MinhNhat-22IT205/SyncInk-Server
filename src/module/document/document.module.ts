@@ -1,23 +1,15 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { DocumentService } from './services/document.service';
 import { DocumentController } from './document.controller';
 import { DocumentRepository } from './repository/document.repository';
 import { PrismaModule } from '../prisma/prisma.module';
-import { EditorService } from '../document-access/editor/editor.service';
-import { EditorRepository } from '../document-access/editor/repository/editor.repository';
-import { ViewerService } from '../document-access/viewer/viewer.service';
-import { ViewerRepository } from '../document-access/viewer/repository/viewer.repository';
+import { DocumentAccessService } from '../document-access/document-access.service';
+import { DocumentAccessRepository } from '../document-access/repository/document-access.repository';
+import { DocumentAccessModule } from '../document-access/document-access.module';
 
 @Module({
-  imports: [PrismaModule],
+  imports: [PrismaModule, forwardRef(() => DocumentAccessModule)],
   controllers: [DocumentController],
-  providers: [
-    DocumentService,
-    DocumentRepository,
-    EditorService,
-    EditorRepository,
-    ViewerService,
-    ViewerRepository,
-  ],
+  providers: [DocumentService, DocumentRepository, DocumentAccessService, DocumentAccessRepository],
 })
 export class DocumentModule {}

@@ -1,11 +1,21 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
-import { EndUserService } from './enduser.service';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  Query,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { EndUserEntity } from './entities/enduser.entity';
 import { JwtAuthGuard } from 'src/module/auth/strategy/jwt-auth.guard';
 import { UseSerializeInterceptor } from 'src/core/interceptor/serialize.interceptor';
+import { EndUserService } from './enduser.service';
 
 @Controller('users')
 @ApiTags('users')
@@ -25,6 +35,12 @@ export class EndUserController {
   @ApiCreatedResponse({ type: EndUserEntity, isArray: true })
   findAll() {
     return this.EndUserService.findAll();
+  }
+
+  @Get('search-by-username')
+  @ApiCreatedResponse({ type: EndUserEntity, isArray: true })
+  findByUsername(@Query('query') query: string) {
+    return this.EndUserService.findByUsername(query);
   }
 
   @Get(':id')

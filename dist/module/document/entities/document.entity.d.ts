@@ -6,7 +6,7 @@ export declare class DocumentEntity implements Document {
     content: string;
     image: string;
     endUserId: string;
-    publicAccess: $Enums.AccessType;
+    publicAccess: $Enums.PublicDocumentAccessType;
     createdAt: Date;
     updatedAt: Date;
 }

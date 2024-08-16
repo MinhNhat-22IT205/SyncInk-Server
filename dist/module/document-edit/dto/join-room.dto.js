@@ -19,4 +19,9 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], JoinRoomDto.prototype, "documentId", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], JoinRoomDto.prototype, "endUserId", void 0);
 //# sourceMappingURL=join-room.dto.js.map

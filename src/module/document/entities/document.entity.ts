@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { $Enums, Document } from '@prisma/client';
+import { JsonValue } from '@prisma/client/runtime/library';
 import { Expose } from 'class-transformer';
 export class DocumentEntity implements Document {
   @ApiProperty()
@@ -28,7 +29,7 @@ export class DocumentEntity implements Document {
 
   @ApiProperty()
   @Expose()
-  publicAccess: $Enums.AccessType;
+  publicAccess: $Enums.PublicDocumentAccessType;
 
   @ApiProperty()
   @Expose()

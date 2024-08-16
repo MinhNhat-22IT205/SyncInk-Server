@@ -1,4 +1,4 @@
 import { $Enums } from '@prisma/client';
 export declare class SetDocumentAccessTypeDto {
-    documentAccessType: $Enums.AccessType;
+    documentAccessType: $Enums.PublicDocumentAccessType;
 }

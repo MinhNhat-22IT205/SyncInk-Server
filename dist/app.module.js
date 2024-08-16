@@ -15,8 +15,8 @@ const prisma_module_1 = require("./module/prisma/prisma.module");
 const enduser_module_1 = require("./module/users/enduser/enduser.module");
 const auth_module_1 = require("./module/auth/auth.module");
 const document_module_1 = require("./module/document/document.module");
-const viewer_module_1 = require("./module/document-access/viewer/viewer.module");
-const editor_module_1 = require("./module/document-access/editor/editor.module");
+const document_edit_module_1 = require("./module/document-edit/document-edit.module");
+const document_access_module_1 = require("./module/document-access/document-access.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -27,9 +27,9 @@ exports.AppModule = AppModule = __decorate([
             prisma_module_1.PrismaModule,
             enduser_module_1.EndUserModule,
             auth_module_1.AuthModule,
+            document_access_module_1.DocumentAccessModule,
             document_module_1.DocumentModule,
-            editor_module_1.EditorModule,
-            viewer_module_1.ViewerModule,
+            document_edit_module_1.DocumentEditModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

@@ -6,8 +6,8 @@ import { PrismaModule } from './module/prisma/prisma.module';
 import { EndUserModule } from './module/users/enduser/enduser.module';
 import { AuthModule } from './module/auth/auth.module';
 import { DocumentModule } from './module/document/document.module';
-import { ViewerModule } from './module/document-access/viewer/viewer.module';
-import { EditorModule } from './module/document-access/editor/editor.module';
+import { DocumentEditModule } from './module/document-edit/document-edit.module';
+import { DocumentAccessModule } from './module/document-access/document-access.module';
 
 @Module({
   imports: [
@@ -15,9 +15,9 @@ import { EditorModule } from './module/document-access/editor/editor.module';
     PrismaModule,
     EndUserModule,
     AuthModule,
+    DocumentAccessModule,
     DocumentModule,
-    EditorModule,
-    ViewerModule,
+    DocumentEditModule,
   ],
   controllers: [AppController],
   providers: [AppService],

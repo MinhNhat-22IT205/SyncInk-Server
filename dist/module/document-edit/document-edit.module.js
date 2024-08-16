@@ -6,18 +6,29 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ChatModule = void 0;
+exports.DocumentEditModule = void 0;
 const common_1 = require("@nestjs/common");
 const document_service_1 = require("../document/services/document.service");
 const document_edit_gateway_1 = require("./document-edit.gateway");
 const document_module_1 = require("../document/document.module");
-let ChatModule = class ChatModule {
+const document_repository_1 = require("../document/repository/document.repository");
+const prisma_module_1 = require("../prisma/prisma.module");
+const document_access_module_1 = require("../document-access/document-access.module");
+const document_access_repository_1 = require("../document-access/repository/document-access.repository");
+const document_access_service_1 = require("../document-access/document-access.service");
+let DocumentEditModule = class DocumentEditModule {
 };
-exports.ChatModule = ChatModule;
-exports.ChatModule = ChatModule = __decorate([
+exports.DocumentEditModule = DocumentEditModule;
+exports.DocumentEditModule = DocumentEditModule = __decorate([
     (0, common_1.Module)({
-        providers: [document_edit_gateway_1.DocumentEditGateway, document_service_1.DocumentService],
-        imports: [document_module_1.DocumentModule],
+        imports: [document_module_1.DocumentModule, prisma_module_1.PrismaModule, document_access_module_1.DocumentAccessModule],
+        providers: [
+            document_edit_gateway_1.DocumentEditGateway,
+            document_service_1.DocumentService,
+            document_repository_1.DocumentRepository,
+            document_access_repository_1.DocumentAccessRepository,
+            document_access_service_1.DocumentAccessService,
+        ],
     })
-], ChatModule);
+], DocumentEditModule);
 //# sourceMappingURL=document-edit.module.js.map

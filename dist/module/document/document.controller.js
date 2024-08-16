@@ -22,7 +22,6 @@ const swagger_1 = require("@nestjs/swagger");
 const update_document_dto_1 = require("./dto/update-document.dto");
 const get_user_decorator_1 = require("../../shared/decorators/get-user.decorator");
 const enduser_entity_1 = require("../users/enduser/entities/enduser.entity");
-const set_document_access_1 = require("./dto/set-document-access");
 let DocumentController = class DocumentController {
     constructor(documentService) {
         this.documentService = documentService;
@@ -34,16 +33,13 @@ let DocumentController = class DocumentController {
         return this.documentService.getDocumentsByUserId(endUser.id);
     }
     getDocument(id, endUser) {
-        return this.documentService.getDocumentById(id, endUser.id);
-    }
-    setDocumentAccessType(id, setDocumentAccessTypeDto, endUser) {
-        return this.documentService.setDocumentAccessType(setDocumentAccessTypeDto, id, endUser.id);
+        return this.documentService.checkAccessAndGetDocumentById(id, endUser.id);
     }
     updateDocument(id, updateDocumentDto, endUser) {
-        return this.documentService.updateDocument(updateDocumentDto, id, endUser.id);
+        return this.documentService.checkAccessAndUpdateDocument(updateDocumentDto, id, endUser.id);
     }
     removeDocument(id, endUser) {
-        return this.documentService.deleteDocument(id, endUser.id);
+        return this.documentService.checkAccessAndDeleteDocument(id, endUser.id);
     }
 };
 exports.DocumentController = DocumentController;
@@ -71,16 +67,6 @@ __decorate([
     __metadata("design:paramtypes", [String, enduser_entity_1.EndUserMinimal]),
     __metadata("design:returntype", void 0)
 ], DocumentController.prototype, "getDocument", null);
-__decorate([
-    (0, common_1.Patch)(':id/access'),
-    __param(0, (0, common_1.Param)('id')),
-    __param(1, (0, common_1.Body)()),
-    __param(2, (0, get_user_decorator_1.User)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, set_document_access_1.SetDocumentAccessTypeDto,
-        enduser_entity_1.EndUserMinimal]),
-    __metadata("design:returntype", void 0)
-], DocumentController.prototype, "setDocumentAccessType", null);
 __decorate([
     (0, common_1.Patch)(':id'),
     __param(0, (0, common_1.Param)('id')),

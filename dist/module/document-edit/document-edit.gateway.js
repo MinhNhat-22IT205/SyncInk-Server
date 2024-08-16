@@ -22,13 +22,6 @@ let DocumentEditGateway = class DocumentEditGateway {
     constructor(documentService) {
         this.documentService = documentService;
     }
-    handleJoinRoom(body, client) {
-        const isAlreadyJoined = client.rooms.has(body.documentId);
-        if (isAlreadyJoined) {
-            return;
-        }
-        client.join(body.documentId);
-    }
     handleLeaveRoom(body, client) {
         const isAlreadyJoined = client.rooms.has(body.documentId);
         if (!isAlreadyJoined) {
@@ -36,9 +29,26 @@ let DocumentEditGateway = class DocumentEditGateway {
         }
         client.leave(body.documentId);
     }
-    async handleEditDocumentContent(body) {
-        const editedDocument = await this.documentService.updateDocument({ content: body.content }, body.documentId, body.endUserId);
-        this.server.to(body.documentId).emit('receiveContent', { content: editedDocument.content });
+    async handleGetDocumentContentAndJoinRoom(body, client) {
+        console.log('body' + body);
+        const isAlreadyJoined = client.rooms.has(body.documentId);
+        if (isAlreadyJoined) {
+            return;
+        }
+        const document = await this.documentService.checkAccessAndGetDocumentById(body.documentId, body.endUserId);
+        console.log('document' + JSON.stringify(document));
+        client.join(body.documentId);
+        this.server.emit('receive-load-document-content', { content: document.content });
+    }
+    async handleSaveDocumentContent(body) {
+        await this.documentService.checkAccessAndUpdateDocument({ content: body.content }, body.documentId, body.endUserId);
+    }
+    async handleEditDocumentContent(body, client) {
+        console.log('text change');
+        this.server
+            .to(body.documentId)
+            .except(client.id)
+            .emit('receive-changes', { content: body.content });
     }
 };
 exports.DocumentEditGateway = DocumentEditGateway;
@@ -46,14 +56,6 @@ __decorate([
     (0, websockets_1.WebSocketServer)(),
     __metadata("design:type", socket_io_1.Server)
 ], DocumentEditGateway.prototype, "server", void 0);
-__decorate([
-    (0, websockets_1.SubscribeMessage)('joinRoom'),
-    __param(0, (0, websockets_1.MessageBody)()),
-    __param(1, (0, websockets_1.ConnectedSocket)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [join_room_dto_1.JoinRoomDto, socket_io_1.Socket]),
-    __metadata("design:returntype", void 0)
-], DocumentEditGateway.prototype, "handleJoinRoom", null);
 __decorate([
     (0, websockets_1.SubscribeMessage)('leaveRoom'),
     __param(0, (0, websockets_1.MessageBody)()),
@@ -63,14 +65,32 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], DocumentEditGateway.prototype, "handleLeaveRoom", null);
 __decorate([
-    (0, websockets_1.SubscribeMessage)('editContent'),
+    (0, websockets_1.SubscribeMessage)('load-document-content'),
+    __param(0, (0, websockets_1.MessageBody)()),
+    __param(1, (0, websockets_1.ConnectedSocket)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [join_room_dto_1.JoinRoomDto,
+        socket_io_1.Socket]),
+    __metadata("design:returntype", Promise)
+], DocumentEditGateway.prototype, "handleGetDocumentContentAndJoinRoom", null);
+__decorate([
+    (0, websockets_1.SubscribeMessage)('save-document'),
     __param(0, (0, websockets_1.MessageBody)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [edit_document_content_dto_1.EditDocumentContentDto]),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], DocumentEditGateway.prototype, "handleSaveDocumentContent", null);
+__decorate([
+    (0, websockets_1.SubscribeMessage)('send-changes'),
+    __param(0, (0, websockets_1.MessageBody)()),
+    __param(1, (0, websockets_1.ConnectedSocket)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [edit_document_content_dto_1.EditDocumentContentDto,
+        socket_io_1.Socket]),
     __metadata("design:returntype", Promise)
 ], DocumentEditGateway.prototype, "handleEditDocumentContent", null);
 exports.DocumentEditGateway = DocumentEditGateway = __decorate([
-    (0, websockets_1.WebSocketGateway)(),
+    (0, websockets_1.WebSocketGateway)({ cors: true }),
     __metadata("design:paramtypes", [document_service_1.DocumentService])
 ], DocumentEditGateway);
 //# sourceMappingURL=document-edit.gateway.js.map

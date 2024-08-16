@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import { PostgresRepository } from './base.repository.interface';
 import {
   ModelInclude,
@@ -24,7 +24,7 @@ export class GenericRepository<T> implements PostgresRepository {
     orderBy?: ModelOrderByWithRelationInput<T>;
     include?: ModelInclude<T>;
   }): Promise<SelectedFields<T, U>[]> {
-    // const a = this.prismaClient.endUser.findMany({where:{editor}});
+    // const a = this.prismaClient.documentAccess.findMany({include:{}});
     return this.prismaClient[this.modelName].findMany(options);
   }
   public async findById(id: string): Promise<T> {

@@ -4,6 +4,6 @@ import { $Enums } from '@prisma/client';
 
 export class SetDocumentAccessTypeDto {
   @ApiProperty({ example: 'PUBLIC' })
-  @IsEnum($Enums.AccessType)
-  documentAccessType: $Enums.AccessType;
+  @IsEnum($Enums.PublicDocumentAccessType)
+  documentAccessType: $Enums.PublicDocumentAccessType;
 }

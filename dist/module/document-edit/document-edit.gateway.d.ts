@@ -6,7 +6,12 @@ export declare class DocumentEditGateway {
     private documentService;
     constructor(documentService: DocumentService);
     server: Server;
-    handleJoinRoom(body: JoinRoomDto, client: Socket): void;
     handleLeaveRoom(body: JoinRoomDto, client: Socket): void;
-    handleEditDocumentContent(body: EditDocumentContentDto): Promise<void>;
+    handleGetDocumentContentAndJoinRoom(body: JoinRoomDto, client: Socket): Promise<void>;
+    handleSaveDocumentContent(body: {
+        documentId: string;
+        content: string;
+        endUserId: string;
+    }): Promise<void>;
+    handleEditDocumentContent(body: EditDocumentContentDto, client: Socket): Promise<void>;
 }

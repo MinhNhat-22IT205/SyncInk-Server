@@ -15,6 +15,10 @@ export class EndUserService {
     return this.endUserRepository.findMany({});
   }
 
+  async findByUsername(username: string): Promise<EndUser[]> {
+    return this.endUserRepository.findMany({ where: { username: { contains: username } } });
+  }
+
   findOne(id: number) {
     return `This action returns a #${id} user`;
   }

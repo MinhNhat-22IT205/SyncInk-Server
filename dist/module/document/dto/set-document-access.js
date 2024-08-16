@@ -18,7 +18,7 @@ class SetDocumentAccessTypeDto {
 exports.SetDocumentAccessTypeDto = SetDocumentAccessTypeDto;
 __decorate([
     (0, swagger_1.ApiProperty)({ example: 'PUBLIC' }),
-    (0, class_validator_1.IsEnum)(client_1.$Enums.AccessType),
+    (0, class_validator_1.IsEnum)(client_1.$Enums.PublicDocumentAccessType),
     __metadata("design:type", String)
 ], SetDocumentAccessTypeDto.prototype, "documentAccessType", void 0);
 //# sourceMappingURL=set-document-access.js.map

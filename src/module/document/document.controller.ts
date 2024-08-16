@@ -7,7 +7,6 @@ import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { UpdateDocumentDto } from './dto/update-document.dto';
 import { User } from 'src/shared/decorators/get-user.decorator';
 import { EndUserMinimal } from '../users/enduser/entities/enduser.entity';
-import { SetDocumentAccessTypeDto } from './dto/set-document-access';
 
 @UseGuards(JwtAuthGuard)
 @Controller('documents')
@@ -29,16 +28,7 @@ export class DocumentController {
 
   @Get(':id')
   getDocument(@Param('id') id: string, @User() endUser: EndUserMinimal) {
-    return this.documentService.getDocumentById(id, endUser.id);
-  }
-
-  @Patch(':id/access')
-  setDocumentAccessType(
-    @Param('id') id: string,
-    @Body() setDocumentAccessTypeDto: SetDocumentAccessTypeDto,
-    @User() endUser: EndUserMinimal,
-  ) {
-    return this.documentService.setDocumentAccessType(setDocumentAccessTypeDto, id, endUser.id);
+    return this.documentService.checkAccessAndGetDocumentById(id, endUser.id);
   }
 
   @Patch(':id')
@@ -47,11 +37,11 @@ export class DocumentController {
     @Body() updateDocumentDto: UpdateDocumentDto,
     @User() endUser: EndUserMinimal,
   ) {
-    return this.documentService.updateDocument(updateDocumentDto, id, endUser.id);
+    return this.documentService.checkAccessAndUpdateDocument(updateDocumentDto, id, endUser.id);
   }
 
   @Delete(':id')
   removeDocument(@Param('id') id: string, @User() endUser: EndUserMinimal) {
-    return this.documentService.deleteDocument(id, endUser.id);
+    return this.documentService.checkAccessAndDeleteDocument(id, endUser.id);
   }
 }
